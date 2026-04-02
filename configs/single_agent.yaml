@@ -1,0 +1,16 @@
+# Single-agent ReAct configuration
+agent:
+  type: single_react
+  model: gpt-4o
+  max_turns: 15
+  temperature: 0.3
+
+tools:
+  - web_search
+  - wikipedia
+  - python
+
+# Fixed budget baselines to compare against PACE
+baselines:
+  - fixed_turns: 5
+  - fixed_turns: 10

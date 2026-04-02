@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PACE"
+version = "0.1.0"
+authors = [
+  { name="Mustafa Mohammmed Adnan Aljumayli", email="maljumayli3@gatech.edu" },
+]
+description = "PACE: Policy for Adaptive Compute Efficiency in Multi-Turn LLM Orchestration"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.40.0",
+    "anthropic>=0.34.0",
+    "numpy>=1.26.0",
+    "scipy>=1.12.0",
+    "scikit-learn>=1.4.0",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+    "datasets>=2.19.0",         # HuggingFace datasets (for FRAMES)
+    "tiktoken>=0.7.0",
+    "matplotlib>=3.8.0",
+    "pandas>=2.2.0",
+    "rich>=13.7.0",             # Nice logging
+    "tavily-python>=0.4.0",    # Search tool
+    "wikipedia-api>=0.6.0",    # Wikipedia tool
+    "sentence-transformers>=3.0.0",  # NLI scorer for S5 (agent agreement)
+    "torch>=2.2.0",            # Required by sentence-transformers
+]
+
+[project.optional-dependencies]
+tau2 = [
+    # τ²-bench is not published on PyPI as "tau2-bench", so install from source.
+    # tau2 imports voice + knowledge modules at import time, so install both extras.
+    "tau2[voice,knowledge] @ git+https://github.com/sierra-research/tau2-bench.git",
+    # Python 3.13 removed `audioop` from stdlib; tau2 imports it.
+    "audioop-lts>=0.2.2; python_version>='3.13'",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["pace*", "agents*", "benchmarks*", "tools*", "experiments*"]

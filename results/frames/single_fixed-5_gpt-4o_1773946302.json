@@ -1,0 +1,107 @@
+{
+  "condition": "single_fixed-5",
+  "model": "gpt-4o",
+  "num_questions": 5,
+  "results": [
+    {
+      "question_id": "0",
+      "question": "If my future wife has the same first name as the 15th first lady of the United States' mother and her surname is the same as the second assassinated president's mother's maiden name, what is my future wife's name? ",
+      "gold": "Jane Ballou",
+      "predicted": "Your future wife's name is Jane Ballou.",
+      "evaluation": {
+        "exact_match": false,
+        "contains_match": true,
+        "word_overlap": 1.0,
+        "score": 0.8
+      },
+      "turns": 5,
+      "tokens": 4730,
+      "latency_ms": 0.0,
+      "rewind_used": false,
+      "rewind_turn": null,
+      "pace_decisions": null
+    },
+    {
+      "question_id": "1",
+      "question": "Imagine there is a building called Bronte tower whose height in feet is the same number as the dewey decimal classification for the Charlotte Bronte book that was published in 1847. Where would this building rank among tallest buildings in New York City, as of August 2024?",
+      "gold": "37th",
+      "predicted": "Bronte Tower, at 823.8 feet tall, would not rank among the tallest buildings in New York City as of August 2024, as it is shorter than the buildings listed, which are all over 1,000 feet tall.",
+      "evaluation": {
+        "exact_match": false,
+        "contains_match": false,
+        "word_overlap": 0.0,
+        "score": 0.0
+      },
+      "turns": 5,
+      "tokens": 5352,
+      "latency_ms": 0.0,
+      "rewind_used": false,
+      "rewind_turn": null,
+      "pace_decisions": null
+    },
+    {
+      "question_id": "2",
+      "question": "How many years earlier would Punxsutawney Phil have to be canonically alive to have made a Groundhog Day prediction in the same state as the US capitol?",
+      "gold": "87",
+      "predicted": "Punxsutawney Phil would have to be canonically alive before 1800 to have made a Groundhog Day prediction in the same state as the U.S. capital, which was Pennsylvania before the capital moved to Washington, D.C.",
+      "evaluation": {
+        "exact_match": false,
+        "contains_match": false,
+        "word_overlap": 0.0,
+        "score": 0.0
+      },
+      "turns": 5,
+      "tokens": 5318,
+      "latency_ms": 0.0,
+      "rewind_used": false,
+      "rewind_turn": null,
+      "pace_decisions": null
+    },
+    {
+      "question_id": "3",
+      "question": "As of August 1, 2024, which country were holders of the FIFA World Cup the last time the UEFA Champions League was won by a club from London?",
+      "gold": "France",
+      "predicted": "As of August 1, 2024, the holders of the FIFA World Cup the last time the UEFA Champions League was won by a club from London (Chelsea in 2021) were France.",
+      "evaluation": {
+        "exact_match": false,
+        "contains_match": true,
+        "word_overlap": 1.0,
+        "score": 0.8
+      },
+      "turns": 5,
+      "tokens": 5711,
+      "latency_ms": 0.0,
+      "rewind_used": false,
+      "rewind_turn": null,
+      "pace_decisions": null
+    },
+    {
+      "question_id": "4",
+      "question": "What is the name of the vocalist from the first band to make it in the top 200 under the record label that produced the third studio album for Dismal Euphony?",
+      "gold": "Jens Kidman",
+      "predicted": "I need to find the record label for Dismal Euphony's third studio album.",
+      "evaluation": {
+        "exact_match": false,
+        "contains_match": false,
+        "word_overlap": 0.0,
+        "score": 0.0
+      },
+      "turns": 5,
+      "tokens": 6172,
+      "latency_ms": 0.0,
+      "rewind_used": false,
+      "rewind_turn": null,
+      "pace_decisions": null
+    }
+  ],
+  "summary": {
+    "accuracy_mean": 0.32,
+    "accuracy_exact_match": 0.0,
+    "turns_mean": 5.0,
+    "turns_median": 5,
+    "tokens_mean": 5456.6,
+    "rewind_count": 0,
+    "rewind_pct": 0.0,
+    "n": 5
+  }
+}

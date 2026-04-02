@@ -1,0 +1,30 @@
+# Multi-agent team (AgentFlow-style) configuration
+agent:
+  type: multi_agentflow
+  max_turns: 15
+
+  # Each module can use a different model
+  # Use the same model for fair comparison with single-agent
+  planner_model: gpt-4o
+  executor_model: gpt-4o        # Executor just runs tools, model only used for parsing
+  verifier_model: gpt-4o
+  generator_model: gpt-4o
+
+  # Cost note: each "turn" = 3 LLM calls (planner + verifier + generator)
+  # So 5 multi-agent turns ≈ 15 single-agent LLM calls in cost
+
+tools:
+  - web_search
+  - wikipedia
+  - python
+
+baselines:
+  - fixed_turns: 5
+  - fixed_turns: 10
+
+# Alternative: use cheaper models for some modules
+# This tests whether PACE savings offset multi-agent overhead
+cheap_variant:
+  planner_model: gpt-4o-mini
+  verifier_model: gpt-4o-mini
+  generator_model: gpt-4o

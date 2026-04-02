@@ -1,0 +1,26 @@
+openai>=1.40.0
+anthropic>=0.34.0
+numpy>=1.26.0
+scipy>=1.12.0
+scikit-learn>=1.4.0
+pyyaml>=6.0
+python-dotenv>=1.0.0
+datasets>=2.19.0
+tiktoken>=0.7.0
+matplotlib>=3.8.0
+pandas>=2.2.0
+rich>=13.7.0
+tavily-python>=0.4.0
+wikipedia-api>=0.6.0
+sentence-transformers>=3.0.0
+torch>=2.2.0
+
+[dev]
+pytest>=8.0
+ruff>=0.4.0
+
+[tau2]
+tau2[knowledge,voice] @ git+https://github.com/sierra-research/tau2-bench.git
+
+[tau2:python_version >= "3.13"]
+audioop-lts>=0.2.2

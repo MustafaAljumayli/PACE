@@ -1,0 +1,57 @@
+# PACE Policy Thresholds (v2 — 5 signals)
+
+# ── S1: Answer Similarity ──
+similarity_threshold: 0.95
+convergence_window: 2
+
+# ── S2: Information Gain ──
+info_gain_floor: 0.05         # Absolute fallback
+relative_thresholds: true     # Use relative (adaptive) thresholds
+relative_k: 1.0               # Std devs below mean = "at floor"
+relative_window: 4            # History window for mean/std
+
+# ── S3: Token Entropy ──
+token_entropy_ceiling: 0.3    # Low entropy = model is confident
+
+# ── S4: Tool Entropy ──
+# (Used for scale detection, not directly for convergence)
+
+# ── S5: Agent Agreement ──
+agreement_threshold: 0.85     # High NLI similarity = agents agree
+
+# ── Rewind ──
+degradation_threshold: 0.85
+
+# ── Scale ──
+scale_info_gain_threshold: 0.3
+scale_similarity_ceiling: 0.7
+
+# ── Safety ──
+min_turns: 2
+max_turns: 15
+
+# ── Dual Agent Config ──
+dual_agent:
+  agent_a_model: gpt-4o
+  agent_b_model: claude-sonnet-4-20250514
+  nli_model: cross-encoder/stsb-distilroberta-base
+  primary: a  # Which agent's answer to return
+
+# ── Ablation Sweep ──
+# Full combinatorial: 5 solos + 10 pairs + 10 triples + 5 quads + 1 full = 31 conditions
+ablation:
+  signals:
+    - answer_similarity   # S1
+    - info_gain           # S2
+    - token_entropy       # S3
+    - tool_entropy        # S4
+    - agent_agreement     # S5
+
+# ── Threshold Sweep (per-signal sensitivity) ──
+sweep:
+  similarity_threshold: [0.90, 0.93, 0.95, 0.97, 0.99]
+  convergence_window: [1, 2, 3]
+  info_gain_floor: [0.02, 0.05, 0.10, 0.15]
+  token_entropy_ceiling: [0.2, 0.3, 0.4, 0.5]
+  agreement_threshold: [0.75, 0.80, 0.85, 0.90, 0.95]
+  degradation_threshold: [0.75, 0.80, 0.85, 0.90]
