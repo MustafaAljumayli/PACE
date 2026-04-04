@@ -2,6 +2,7 @@ Metadata-Version: 2.4
 Name: PACE
 Version: 0.1.0
 Summary: PACE: Policy for Adaptive Compute Efficiency in Multi-Turn LLM Orchestration
+Author-email: Mustafa Mohammmed Adnan Aljumayli <maljumayli3@gatech.edu>
 Requires-Python: >=3.10
 Requires-Dist: openai>=1.40.0
 Requires-Dist: anthropic>=0.34.0

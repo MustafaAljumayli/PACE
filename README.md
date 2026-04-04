@@ -350,3 +350,69 @@ with different masks active. Same result, zero extra API cost.
 If 3 of 4 active signals say converged but one says "still changing," stopping is risky.
 Requiring all active signals to agree prevents premature termination. The ablation study
 then reveals which signals are the noisy ones that prevent convergence detection.
+
+
+**Overnight runs:** 
+cd /workspace/Research/PACE
+mkdir -p logs /workspace/tmp
+
+cat > /tmp/pace_overnight.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+export HF_HOME=/workspace/.cache/huggingface
+export HUGGINGFACE_HUB_CACHE=/workspace/.cache/huggingface/hub
+export XDG_CACHE_HOME=/workspace/.cache
+export VLLM_CACHE_ROOT=/workspace/.cache/vllm
+export FLASHINFER_WORKSPACE_BASE=/workspace/.cache/flashinfer
+export TMPDIR=/workspace/tmp
+export TMP=/workspace/tmp
+export TEMP=/workspace/tmp
+export TORCHINDUCTOR_CACHE_DIR=/workspace/.cache/torchinductor
+export TRITON_CACHE_DIR=/workspace/.cache/triton
+export CUDA_CACHE_PATH=/workspace/.cache/nv
+export PYTHONUNBUFFERED=1
+
+while true; do
+  /workspace/Research/PACE/.venv/bin/python experiments/run_qwen27b_baseline.py \
+    --tasks data/tasks_mixed.json \
+    --output data/trajectories_1000.json \
+    --model Qwen/Qwen3.5-27B \
+    --max-turns 10 \
+    --start-vllm \
+    --vllm-python /workspace/Research/PACE/.venv/bin/python \
+    --vllm-gpu-memory-utilization 0.85 \
+    --vllm-extra-args "--gdn-prefill-backend triton"
+  code=$?
+  [ "$code" -eq 0 ] && exit 0
+  sleep 30
+done
+EOF
+
+chmod +x /tmp/pace_overnight.sh
+nohup /tmp/pace_overnight.sh > /workspace/Research/PACE/logs/overnight.log 2>&1 &
+echo $! > /workspace/Research/PACE/logs/overnight.pid
+
+**Check Status:**
+python - <<'PY'
+import json
+p="data/trajectories_1000.json"
+print("completed_tasks =", len(json.load(open(p))))
+PY
+completed_tasks = 177
+
+**Or:**
+pgrep -af "run_qwen27b_baseline.py|vllm"
+
+**Watch logs:**
+tail -f logs/overnight.log
+
+**Stop it:**
+kill "$(cat logs/overnight.pid)"
+
+root@5681096ec528:/workspace/Research/PACE# ps -fp 166127,166132,159775
+pgrep -af "run_qwen27b_baseline.py|vllm"
+
+stat data/trajectories_1000.json
+sleep 30
+stat data/trajectories_1000.json

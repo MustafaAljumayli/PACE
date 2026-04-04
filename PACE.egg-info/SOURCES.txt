@@ -14,8 +14,12 @@ benchmarks/frames.py
 benchmarks/tau2.py
 experiments/__init__.py
 experiments/analyze_results.py
+experiments/build_signal_dataset.py
+experiments/build_training_dataset.py
+experiments/compare_entropy_signals.py
 experiments/run_ablation.py
 experiments/run_frames.py
+experiments/run_qwen27b_baseline.py
 experiments/run_tau2.py
 experiments/sweep_thresholds.py
 pace/__init__.py
@@ -23,5 +27,11 @@ pace/embeddings.py
 pace/policy.py
 pace/signals.py
 pace/trajectory.py
+tests/test_ablation.py
+tests/test_agent_agreement.py
 tests/test_pace.py
+tests/test_policy.py
+tests/test_signal_mask.py
+tests/test_signals.py
+tests/test_text_signals.py
 tools/__init__.py

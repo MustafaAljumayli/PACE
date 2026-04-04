@@ -25,21 +25,20 @@ from typing import Any
 
 
 SYSTEM_PROMPT = """You are a helpful reasoning assistant.
-Think carefully through each problem step by step.
-At the end of every response, you must write your current best answer
-on its own line in exactly this format:
+For EVERY turn, output your current best answer FIRST on line 1 in exactly this format:
 ANSWER: <your answer here>
 
+Then you may add brief reasoning (optional). If unsure, still provide your best current guess.
 Keep your ANSWER concise — one word, phrase, number, or letter only."""
 
 CONTINUE_PROMPTS = [
-    "Review your reasoning carefully. Can you improve your answer?",
-    "Double-check your work. Is your answer correct and complete?",
-    "Reconsider the problem. Do you stand by your answer?",
-    "Is there anything you may have missed? Verify your answer.",
-    "Take another careful look. What is your final answer?",
-    "Challenge your reasoning. Could there be a different answer?",
-    "Review each step. Are you confident in your answer?",
+    "Review your reasoning carefully. Line 1 must be: ANSWER: <best current answer>.",
+    "Double-check your work. Start with ANSWER: <best current answer>.",
+    "Reconsider the problem. Keep line 1 as ANSWER: <best current answer>.",
+    "Verify your work. Begin with ANSWER: <best current answer>.",
+    "Take another careful look. First line: ANSWER: <best current answer>.",
+    "Challenge your reasoning. Still begin with ANSWER: <best current answer>.",
+    "Review each step. Start with ANSWER: <best current answer>.",
 ]
 
 
@@ -139,6 +138,7 @@ def run_task(
     model: str,
     max_turns: int,
     sleep_s: float,
+    max_output_tokens: int | None,
     disable_thinking: bool = False,
 ) -> dict[str, Any]:
     messages = [
@@ -156,9 +156,10 @@ def run_task(
         create_kwargs = dict(
             model=model,
             messages=messages,
-            max_tokens=1024,
             temperature=0.7,
         )
+        if max_output_tokens is not None:
+            create_kwargs["max_tokens"] = max_output_tokens
         if disable_thinking:
             create_kwargs["extra_body"] = {"chat_template_kwargs": {"enable_thinking": False}}
 
@@ -232,6 +233,15 @@ def main() -> None:
         help="API key for OpenAI-compatible endpoint (vLLM can use any non-empty string)",
     )
     parser.add_argument("--max-turns", type=int, default=10)
+    parser.add_argument(
+        "--max-output-tokens",
+        type=int,
+        default=None,
+        help=(
+            "Per-turn output token cap. "
+            "Default: None (no explicit output cap; rely on model/provider limits)."
+        ),
+    )
     parser.add_argument("--sleep-s", type=float, default=0.5)
     parser.add_argument("--retry-s", type=float, default=2.0)
     parser.add_argument("--max-errors", type=int, default=50)
@@ -360,6 +370,7 @@ def main() -> None:
                     model=args.model,
                     max_turns=args.max_turns,
                     sleep_s=args.sleep_s,
+                    max_output_tokens=args.max_output_tokens,
                     disable_thinking=args.disable_thinking,
                 )
                 answers_found = sum(1 for t in result["trajectory"] if t.get("answer"))
