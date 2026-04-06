@@ -1,3 +1,7 @@
 [submodule "tau2-bench"]
 	path = tau2-bench
 	url = https://github.com/sierra-research/tau2-bench.git
+
+[submodule "lost_in_conversation"]
+	path = lost_in_conversation
+	url = https://github.com/microsoft/lost_in_conversation.git

@@ -64,7 +64,7 @@ class NLIScorer:
     """
     Cross-encoder NLI model for inter-agent agreement (S5).
 
-    Uses 'cross-encoder/stsb-distilroberta-base' by default — a DistilRoBERTa
+    Uses 'cross-encoder/nli-deberta-v3-small' by default — a DeBERTa
     model fine-tuned on STS-B (semantic textual similarity). Returns a score
     in [0, 1] where 1 = semantically identical.
 
@@ -76,9 +76,8 @@ class NLIScorer:
       - Runs on CPU in ~30ms per pair. No GPU needed.
     """
 
-    # Swap this for 'cross-encoder/nli-distilroberta-base' if you want
     # entailment/contradiction/neutral labels instead of a continuous score.
-    DEFAULT_MODEL = "cross-encoder/stsb-distilroberta-base"
+    DEFAULT_MODEL = "cross-encoder/nli-deberta-v3-small"
 
     def __init__(self, model_name: str | None = None):
         self._model_name = model_name or self.DEFAULT_MODEL
